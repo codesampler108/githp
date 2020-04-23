@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="
+	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd  
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+
+	
+
+
+	<!-- id - unique id in spring bean context 
+	
+	implementor - actual class that implements web service interface address - same as put in address in wsdl -->
+
+	<jaxws:endpoint id="Calculator"
+		implementor="com.rk.jaxws.cxfanno.serviceimpl.CalculatorWS"
+		address="/services/calculator" />
+	
+</beans>
