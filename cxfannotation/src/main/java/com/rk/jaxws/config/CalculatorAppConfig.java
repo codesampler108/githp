@@ -1,26 +1,12 @@
 package com.rk.jaxws.config;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Binding;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
-import org.apache.cxf.endpoint.Endpoint;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.endpoint.ServerImpl;
-import org.apache.cxf.endpoint.ServerRegistry;
 import org.apache.cxf.jaxws.EndpointImpl;
-import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean;
-import org.apache.cxf.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 
 import com.rk.jaxws.cxfanno.interceptor.in.PreInvokeInterceptor;
@@ -34,7 +20,7 @@ import com.rk.jaxws.cxfanno.serviceimpl.CalculatorWS;
 @Configuration
 @ComponentScan("com.rk.jaxws.cxfanno")
 @ImportResource({ "classpath:META-INF/cxf/cxf.xml", "classpath:META-INF/cxf/cxf-servlet.xml",
-		"classpath:META-INF/cxf/cxf-extension-jaxws.xml", "classpath:jaxwsconfig/beans.xml" })
+		"classpath:META-INF/cxf/cxf-extension-jaxws.xml" })
 public class CalculatorAppConfig {
 
 	@Autowired
@@ -53,7 +39,7 @@ public class CalculatorAppConfig {
 	 * Interceptors would be called as per apache cxf pipeline. below sequence does
 	 * not matter
 	 */
-	@Bean
+	@Bean(name = Bus.DEFAULT_BUS_ID) // Default bus id is critical as you need to get hold of "cxf" bean
 	public Bus getDefaultBus() {
 		Bus defaultBus = BusFactory.getDefaultBus();
 		System.out.println("bus:" + defaultBus.toString());
@@ -86,27 +72,10 @@ public class CalculatorAppConfig {
 
 		System.out.println("bus:" + defaultBus.toString());
 		EndpointImpl endPoint = new EndpointImpl(defaultBus, calculatorWS);
-
 		endPoint.setAddress("/services/calculator");
-		endPoint.setServiceName(new QName("Calculator"));
 		endPoint.setBus(defaultBus);
 		endPoint.publish();
-
-		/*
-		 * ServerRegistry serverRegistry =
-		 * defaultBus.getExtension(ServerRegistry.class); servers =
-		 * serverRegistry.getServers();
-		 * servers.forEach(x->System.out.println(x.getEndpoint()));
-		 */
-
-		/*
-		 * JaxWsServerFactoryBean serverFactory = endPoint.getServerFactory();
-		 * JaxWsServiceFactoryBean jaxWsServiceFactory =
-		 * serverFactory.getJaxWsServiceFactory(); Service service =
-		 * jaxWsServiceFactory.create(); Map<QName, Endpoint> endpoints =
-		 * service.getEndpoints(); endpoints.keySet().forEach(x ->
-		 * System.out.println(x.toString()));
-		 */
+		
 		return endPoint;
 	}
 
