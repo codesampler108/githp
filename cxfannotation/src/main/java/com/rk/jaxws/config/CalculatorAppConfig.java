@@ -34,7 +34,7 @@ import com.rk.jaxws.cxfanno.serviceimpl.CalculatorWS;
 @Configuration
 @ComponentScan("com.rk.jaxws.cxfanno")
 @ImportResource({ "classpath:META-INF/cxf/cxf.xml", "classpath:META-INF/cxf/cxf-servlet.xml",
-		"classpath:META-INF/cxf/cxf-extension-jaxws.xml", "classpath:jaxwsconfig/beans.xml" })
+		"classpath:META-INF/cxf/cxf-extension-jaxws.xml" })
 public class CalculatorAppConfig {
 
 	@Autowired
@@ -53,7 +53,7 @@ public class CalculatorAppConfig {
 	 * Interceptors would be called as per apache cxf pipeline. below sequence does
 	 * not matter
 	 */
-	@Bean
+	@Bean(name = Bus.DEFAULT_BUS_ID)
 	public Bus getDefaultBus() {
 		Bus defaultBus = BusFactory.getDefaultBus();
 		System.out.println("bus:" + defaultBus.toString());
@@ -88,7 +88,6 @@ public class CalculatorAppConfig {
 		EndpointImpl endPoint = new EndpointImpl(defaultBus, calculatorWS);
 
 		endPoint.setAddress("/services/calculator");
-		endPoint.setServiceName(new QName("Calculator"));
 		endPoint.setBus(defaultBus);
 		endPoint.publish();
 
