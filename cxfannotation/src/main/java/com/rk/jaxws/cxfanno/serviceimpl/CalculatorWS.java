@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.jws.WebService;
+import javax.xml.ws.Holder;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
@@ -23,9 +24,11 @@ import com.rk.jaxws.cxfanno.model.RequestData;
 import com.rk.schema.calculator.CalculateDataRequest;
 import com.rk.schema.calculator.CalculateDataResponse;
 import com.rk.schema.calculator.ObjectFactory;
+import com.rk.schema.mwdsheader.MwdsHeaderInfo;
+import com.rk.schema.mwdsheader.MwdsHeaderInfoResponse;
 import com.rk.service.calculator.Calculator;
 
-/* 
+/* LEARN - 
  * portName and serviceName are kept under wsdl:service in wsdl.
  * endpointInterface - fully qualified interface name
  * targetNamespace - defined in wsdl under targetNamespace at top
@@ -49,8 +52,17 @@ public class CalculatorWS implements Calculator {
 	}
 	
 	@Override
-	public CalculateDataResponse addOrMultiply(CalculateDataRequest request) {
+	public CalculateDataResponse addOrMultiply(CalculateDataRequest request, MwdsHeaderInfo hdr,
+			Holder<MwdsHeaderInfoResponse> hdrResponseHolder) {
 		System.out.println("\n\nRunning:"+this.getClass().getName());
+		System.out.println("header:"+hdr.getRequestId()+" "+hdr.getImpersonateUser());
+		
+		System.out.println(hdrResponseHolder.value);
+		MwdsHeaderInfoResponse hdrRespValue=new MwdsHeaderInfoResponse();
+		hdrRespValue.setApidescription("test api for learning");
+		hdrRespValue.setRequestId(hdr.getRequestId());
+		hdrResponseHolder.value=hdrRespValue;
+		
 		accessSoapMessageAndPreviousInterceptorData();
 		ObjectFactory factory = new ObjectFactory();
 		CalculateDataResponse response = factory.createCalculateDataResponse();
@@ -62,7 +74,7 @@ public class CalculatorWS implements Calculator {
 		return response;
 	}
 
-	// this method shows that you can access the original message
+	// LEARN - this method shows that you can access the original message
 	// extract headers, user information etc from the message.
 	// this can be used when you need something beyond the Java Bean with request details.
 	private void accessSoapMessageAndPreviousInterceptorData() {
@@ -133,5 +145,6 @@ public class CalculatorWS implements Calculator {
 		endpt.getOutInterceptors().add(interceptor);
 	}
 
+	
 
 }

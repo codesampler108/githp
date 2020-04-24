@@ -1,0 +1,45 @@
+service - 
+http://localhost:8080/webjavasoapapachecxfanno/services/calculator
+
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mwd="http://www.rk.com/schema/MwdsHeader" xmlns:cal="http://www.rk.com/schema/Calculator">
+   <soapenv:Header>
+   	<random>asdf</random>
+      <mwd:mwdsHeaderInfo>
+         <mwd:requestId>666666</mwd:requestId>
+         <mwd:impersonateUser>hp</mwd:impersonateUser>
+      </mwd:mwdsHeaderInfo>
+   </soapenv:Header>
+   <soapenv:Body>
+      <cal:calculateDataRequest>
+         <cal:operation>+</cal:operation>
+         <!--Zero or more repetitions:-->
+         <cal:numbers>44</cal:numbers>
+         <cal:numbers>25</cal:numbers>
+
+         <!--1 or more repetitions:-->
+         <cal:user>
+            <cal:userId>3249572</cal:userId>
+            <cal:userName>asd</cal:userName>
+         </cal:user>
+      </cal:calculateDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+Response
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Header>
+      <apidescription xmlns="http://www.rk.com/service/Calculator/">This API is unsupported</apidescription>
+      <randomout>asdf</randomout>
+      <ns2:mwdsHeaderInfoResponse xmlns:ns2="http://www.rk.com/schema/MwdsHeader" xmlns="http://www.rk.com/schema/Calculator">
+         <ns2:requestId>666666</ns2:requestId>
+         <ns2:apidescription>test api for learning</ns2:apidescription>
+      </ns2:mwdsHeaderInfoResponse>
+   </soap:Header>
+   <soap:Body>
+      <calculateDataResponse xmlns="http://www.rk.com/schema/Calculator" xmlns:ns2="http://www.rk.com/schema/MwdsHeader">
+         <returnValue>69</returnValue>
+      </calculateDataResponse>
+   </soap:Body>
+</soap:Envelope>

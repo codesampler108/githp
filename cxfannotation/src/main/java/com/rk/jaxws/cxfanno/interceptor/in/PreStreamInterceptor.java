@@ -44,7 +44,7 @@ public class PreStreamInterceptor extends AbstractPhaseInterceptor<SoapMessage> 
 	}
 	
 	
-	// Using InputStream to get data works only in PRE_STREAM
+	// LEARN - Using InputStream to get data works only in PRE_STREAM
 	private String extractPayLoadStringFromMessage(SoapMessage message) {
 		try {
 			//Get the message body into payload[] and set a new non-consumed  inputStream into Message

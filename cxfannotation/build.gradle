@@ -9,8 +9,12 @@ configurations {
 }
 
 repositories {
+	// Use jcenter for resolving dependencies.
+	// You can declare any Maven/Ivy/file repository here.
 	jcenter()
 }
+
+
 
 dependencies {
 
@@ -51,6 +55,7 @@ dependencies {
 	api group: 'javax.activation', name: 'activation', version: '1.1.1'
 	api group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 	
+	// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
 	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 	
 }
@@ -58,21 +63,23 @@ dependencies {
 ext {
 	wsdlDir = file("src/main/resources/wsdl")
 	codeGenDir = file("src/main/java/")
-	
+	//outputPackage="com.rk.web.soap.apache.cxf.codegen"
 }
 
 
 project.ext {
 }
 
+// exsh true is required so that header is put as part of soap service
 task wsdl2java (type:JavaExec) {
-	
+	inputs.files wsdlDir.listFiles()
+	outputs.upToDateWhen { false }
 	outputs.dir codeGenDir
 	main = "org.apache.cxf.tools.wsdlto.WSDLToJava"
 	classpath configurations.cxf
-	args '-d', codeGenDir,   "$wsdlDir/Calculator.wsdl"
+	args '-d', codeGenDir, '-exsh', 'true',  "$wsdlDir/Calculator.wsdl"
 	doLast{
-		println "wsld2java done.."
+		println "done.."
 	}
 }
 

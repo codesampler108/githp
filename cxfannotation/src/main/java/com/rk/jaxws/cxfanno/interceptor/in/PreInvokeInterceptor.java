@@ -41,14 +41,19 @@ public class PreInvokeInterceptor extends AbstractSoapInterceptor {
 		readMessageBody(message);
 	}
 
-	// we can extract all the required information from header here.
+	// LEARN - we can extract all the required information from header here.
 	// but we can also keep raw Document (for random extraction later if needed) and String ( for simple logging )
 	private void readMessageHeader(SoapMessage message, RequestData requestData) {
 
+		// if you move headers as a type using xsd and adding header to api service method
+		// then header part as per xsd schema will get remove during invoke.
+		// So ?
+		// after reuqest processing, when you intercept the message in SetUpInterceptor
+		// you will only find non-schema standard headers
 		try {
 			List<Header> headers = message.getHeaders();
 			Header headerSoap =null;
-			if ( headers != null) {
+			if ( headers != null && headers.size()>0) {
 				headerSoap = headers.get(0);
 			}
 			if ( null == headerSoap ) {
@@ -67,8 +72,12 @@ public class PreInvokeInterceptor extends AbstractSoapInterceptor {
 
 			// extract requestId
 			NodeList requestId = soapHeaderDocument.getElementsByTagName("requestId");
-			Node item = requestId.item(0);
-			requestData.getExtractedHeaderVO().setRequestId(item.getTextContent());
+			if ( null != requestId ) {
+				Node item = requestId.item(0);
+				if ( null != item ) {
+					requestData.getExtractedHeaderVO().setRequestId(item.getTextContent());
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
