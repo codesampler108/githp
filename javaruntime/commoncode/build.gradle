@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    
+}
+
+java {
+	withSourcesJar() // available from gradle 6
+}
+
+
+task copyLib1 (type: Copy){
+	from file("build/libs/")
+	include "*.jar"
+	into file("../cxfservices/extlib/")
+}
+task copyLib2 (type: Copy){
+	from file("build/libs/")
+	include "*.jar"
+	into file("../soaptkservices/extlib/")
+}
+
+check.dependsOn(copyLib1);
+check.dependsOn(copyLib2);

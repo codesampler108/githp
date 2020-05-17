@@ -1,0 +1,4 @@
+cd extlib
+javac SomeClass.java
+jar cf somelib.jar SomeClass.class
+java -classpath "extlib/somelib.jar;build/libs/javafornamedemo.jar" demo.DemoClass

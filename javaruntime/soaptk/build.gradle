@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    
+}
+
+task sourcesJar ( type: Jar, dependsOn: classes ){
+	classifier='sources'
+	from sourceSets.main.allSource
+}
+
+task copyLib (type: Copy){
+	from file("build/libs/")
+	include "*.jar"
+	into file("../soaptkservices/extlib/")
+	print("copy done")
+}
+
+
+copyLib.dependsOn(sourcesJar);
+check.dependsOn(copyLib);
+

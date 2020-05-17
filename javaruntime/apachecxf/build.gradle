@@ -1,0 +1,24 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    
+}
+
+java {
+	withSourcesJar() // available from gradle 6
+}
+
+task copyLib (type: Copy){
+	from file("build/libs/")
+	include "*.jar"
+	into file("../cxfservices/extlib")
+	print("copy done")
+}
+
+check.dependsOn(copyLib);

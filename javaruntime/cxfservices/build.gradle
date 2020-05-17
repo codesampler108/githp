@@ -1,0 +1,20 @@
+plugins {
+    id 'java-library'
+    id 'war'
+}
+
+repositories {
+    jcenter()
+    flatDir {
+        dirs 'extlib'
+    }
+
+}
+
+dependencies {
+	implementation name: 'commoncode'
+    implementation name: 'commoncode-sources'
+    implementation name: 'apachecxf'
+    implementation name: 'apachecxf-sources'
+    compile group: 'com.sun.xml.ws', name: 'jaxws-tools', version: '2.3.2'
+}
