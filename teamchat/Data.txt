@@ -1,0 +1,56 @@
+http://localhost:8080/api/space/add
+
+{
+    "title": "First Space",
+    "color": "ffffff",
+    "createdBy": "1"
+}
+
+
+http://localhost:8080/api/appuser/add
+{
+    "nickName": "usr1",
+    "firstName":"First1",
+    "lastName":"Last1",
+    "color": "ffffff",
+    "createdBy": "1"
+}
+
+
+http://localhost:8080/api/chat/all
+{
+    "title": "First Chat",
+    "space": {
+        "spaceId":"1"
+    },
+    "color": "ffffff",
+    "createdBy": "1"
+}
+
+
+http://localhost:8080/api/chat/add
+{
+    "title": "First Chat",
+    "space" : {
+        "spaceId":"1"
+    },
+    "color": "ffffff",
+    "createdBy": "1"
+}
+
+
+
+SELECT * FROM teamchatdb.space;
+SELECT * FROM teamchatdb.chat;
+SELECT * FROM teamchatdb.message;
+SELECT * FROM teamchatdb.app_user;
+
+select * from teamchatdb.spaceappusers;
+select * from teamchatdb.chatappusers;
+
+
+insert into spaceappusers select 1, 1;
+insert into chatappusers select 1, 1;
+
+insert into chat ( space_id, title, color, created_by) values ( 1, "First Chat", "ffffff", 1 );
+insert into message ( chat_id, data, created_by) values ( 1, "First Msg", 1 );
